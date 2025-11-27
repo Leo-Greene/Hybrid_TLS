@@ -38,6 +38,9 @@
 - ✅ **真实证书验证**：三级证书链（服务器→中间CA→根CA）完整验证
 - ✅ **性能基准测试**：密钥交换、签名、握手、网络感知等多维度测试
 - ✅ **Web可视化界面**：实时展示握手流程、消息解码、性能分析
+- ✅ **HTTPS服务器支持**：使用自定义混合TLS协议实现HTTPS网站 🆕
+- ✅ **浏览器访问**：通过代理服务器支持标准浏览器访问 🆕
+- ✅ **Wireshark抓包**：支持抓包分析，展示双重TLS架构 🆕
 
 ---
 
@@ -154,6 +157,26 @@ Root CA (根证书颁发机构)
 - **图表**：Chart.js + Plotly
 - **样式**：现代化卡片设计，响应式布局
 
+### 6. HTTPS服务器和浏览器访问支持 🆕
+
+#### 双重TLS架构
+```
+浏览器 → 标准HTTPS → 代理服务器 → 自定义混合TLS → 后端服务器
+```
+
+#### 核心功能
+- ✅ **HTTPS服务器**：使用自定义混合TLS协议实现HTTPS网站
+- ✅ **HTTPS代理服务器**：将浏览器的标准HTTPS转换为自定义TLS
+- ✅ **浏览器兼容**：支持Chrome、Edge、Firefox等主流浏览器
+- ✅ **Wireshark抓包**：支持抓包分析，展示双重TLS架构
+- ✅ **本地证书服务器**：提供证书文件HTTP服务
+
+#### 使用场景
+1. **浏览器访问演示**：通过代理服务器，使用标准浏览器访问混合PQC-TLS网站
+2. **抓包分析**：使用Wireshark抓包，对比标准TLS和自定义TLS的数据包
+3. **协议验证**：验证混合TLS协议的正确性和安全性
+4. **性能测试**：在真实浏览器环境中测试性能
+
 ---
 
 ## 🚀 快速开始
@@ -233,6 +256,23 @@ python enhanced_api_server.py
 # http://127.0.0.1:8000/enhanced_index.html
 ```
 
+#### 启动HTTPS服务器（浏览器访问）🆕
+```bash
+# 终端1: 启动后端HTTPS服务器（使用自定义TLS）
+python implementation/enhanced_v2/https_server.py --port 8443 --mode hybrid
+
+# 终端2: 启动HTTPS代理服务器（将标准HTTPS转换为自定义TLS）
+python implementation/enhanced_v2/https_proxy.py \
+    --proxy-port 8080 \
+    --backend-host 127.0.0.1 \
+    --backend-port 8443 \
+    --mode hybrid
+
+# 配置浏览器代理：127.0.0.1:8080
+# 访问：https://127.0.0.1:8443
+# 详细配置请参考：implementation/enhanced_v2/BROWSER_SETUP.md
+```
+
 ---
 
 ## 📂 项目架构
@@ -260,9 +300,15 @@ Hybrid_PQC_TLS_Lab/
 │       ├── config.py                  # 配置管理
 │       ├── enhanced_client.py         # 客户端实现
 │       ├── enhanced_server.py         # 服务器实现
+│       ├── https_server.py            # HTTPS服务器（自定义TLS）🆕
+│       ├── https_proxy.py             # HTTPS代理服务器🆕
+│       ├── local_cert_server.py       # 本地证书文件服务器🆕
 │       ├── cert_loader.py             # 证书加载器
 │       ├── multi_cert_manager.py      # 多证书管理
-│       └── trust_store_manager.py     # 信任存储管理
+│       ├── trust_store_manager.py     # 信任存储管理
+│       ├── BROWSER_SETUP.md           # 浏览器访问配置指南🆕
+│       ├── README_HTTPS.md            # HTTPS使用指南🆕
+│       └── WIRESHARK_DEMO.md          # Wireshark抓包演示指南🆕
 │
 ├── enhanced_certificates/              # 证书存储
 │   ├── ecdsa_p256/                    # ECDSA证书
@@ -331,6 +377,14 @@ Hybrid_PQC_TLS_Lab/
 - **enhanced_index.html**：单页应用前端
 - **enhanced_script.js**：处理握手执行、数据可视化、页面交互
 - **enhanced_style.css**：现代化UI设计
+
+#### 5. `implementation/enhanced_v2/` - HTTPS和浏览器支持 🆕
+- **https_server.py**：使用自定义TLS协议的HTTPS服务器
+- **https_proxy.py**：HTTPS代理服务器，实现标准HTTPS到自定义TLS的转换
+- **local_cert_server.py**：本地证书文件HTTP服务器
+- **BROWSER_SETUP.md**：详细的浏览器访问配置指南
+- **README_HTTPS.md**：HTTPS服务器使用文档
+- **WIRESHARK_DEMO.md**：Wireshark抓包演示指南
 
 ---
 
@@ -468,6 +522,46 @@ app.add_middleware(
     allow_methods=["*"],
 )
 ```
+
+#### 5. 浏览器访问和抓包分析 🆕
+
+##### 快速启动（5步）
+```bash
+# 1. 启动后端HTTPS服务器
+python implementation/enhanced_v2/https_server.py --port 8443 --mode hybrid
+
+# 2. 启动HTTPS代理服务器
+python implementation/enhanced_v2/https_proxy.py --proxy-port 8080 --backend-port 8443
+
+# 3. 配置浏览器代理：127.0.0.1:8080
+
+# 4. 配置hosts文件（Windows: C:\Windows\System32\drivers\etc\hosts）
+# 添加：127.0.0.1 pqc-tls.local
+
+# 5. 浏览器访问：https://pqc-tls.local:8443
+```
+
+##### Wireshark抓包分析
+```bash
+# 启动Wireshark，选择Loopback接口
+# 设置过滤器：
+(tcp.port == 8443 or tcp.port == 8080) and ip.addr == 127.0.0.1
+
+# 观察双重TLS架构：
+# - 浏览器 ↔ 代理（8080端口）：标准TLS 1.2/1.3
+# - 代理 ↔ 后端（8443端口）：自定义混合PQC-TLS
+```
+
+##### 抓包要点
+- **标准TLS握手**（端口8080）：可以看到浏览器和代理之间的标准TLS握手
+- **自定义TLS握手**（端口8443）：可以看到代理和后端之间的自定义混合TLS握手
+- **后量子签名特征**：ML-DSA-65签名约3309字节，明显大于传统ECDSA签名（72字节）
+- **HTTP CONNECT隧道**：可以看到代理建立的CONNECT隧道
+
+详细配置请参考：
+- [浏览器访问配置指南](implementation/enhanced_v2/BROWSER_SETUP.md)
+- [HTTPS使用指南](implementation/enhanced_v2/README_HTTPS.md)
+- [Wireshark抓包演示指南](implementation/enhanced_v2/WIRESHARK_DEMO.md)
 
 ---
 
@@ -620,6 +714,67 @@ network_delay = transmission_delay + propagation_delay
 time.sleep(network_delay)
 ```
 
+### HTTPS代理架构 🆕
+
+HTTPS代理服务器实现了双重TLS架构，允许标准浏览器访问自定义混合TLS协议：
+
+```
+┌─────────┐        标准HTTPS         ┌──────────┐        自定义混合TLS         ┌──────────┐
+│ 浏览器   │ ──────────────────────> │ 代理服务器│ ──────────────────────> │ 后端服务器│
+│         │ <────────────────────── │          │ <────────────────────── │          │
+└─────────┘      TLS 1.2/1.3        └──────────┘     混合PQC-TLS          └──────────┘
+                 端口8080                               端口8443
+```
+
+#### 工作流程
+
+1. **浏览器连接代理**：
+   - 浏览器发送HTTP CONNECT请求建立隧道
+   - 代理服务器使用标准TLS 1.2/1.3与浏览器握手
+   - 代理服务器生成自签名证书（用于浏览器验证）
+
+2. **代理连接后端**：
+   - 代理服务器作为客户端，使用自定义混合TLS连接后端
+   - 执行完整的混合PQC-TLS握手
+   - 验证后量子证书链
+
+3. **数据转发**：
+   - 浏览器 → 代理：标准TLS加密的HTTP请求
+   - 代理 → 后端：自定义TLS加密的HTTP请求
+   - 后端 → 代理：自定义TLS加密的HTTP响应
+   - 代理 → 浏览器：标准TLS加密的HTTP响应
+
+#### 关键实现
+
+```python
+# 代理服务器同时维护两个TLS连接
+class HTTPSProxyHandler:
+    def handle(self):
+        # 1. 与浏览器建立标准TLS连接
+        browser_tls = ssl.wrap_socket(
+            self.request,
+            certfile='proxy_cert.pem',
+            keyfile='proxy_key.pem',
+            server_side=True
+        )
+        
+        # 2. 与后端建立自定义混合TLS连接
+        backend_client = EnhancedTLSClient(mode=TLSMode.HYBRID)
+        backend_client.connect(backend_host, backend_port)
+        
+        # 3. 双向数据转发
+        threading.Thread(target=self.forward, args=(browser_tls, backend_client)).start()
+        threading.Thread(target=self.forward, args=(backend_client, browser_tls)).start()
+```
+
+#### Wireshark抓包特征
+
+- **端口8080**：标准TLS握手，可以用Wireshark的TLS解析器解析
+- **端口8443**：自定义TLS握手，无法用标准TLS解析器解析，但可以看到：
+  - 大尺寸的CertificateVerify消息（后量子签名）
+  - 自定义消息格式
+  - 后量子密钥交换数据
+
 ---
 
 ## 🛠️ 故障排除
@@ -676,6 +831,41 @@ where python  # Windows
 pip list | grep -E "liboqs|cryptography|numpy"
 ```
 
+#### 6. 浏览器无法访问HTTPS服务器 🆕
+```bash
+# 检查后端服务器是否启动
+netstat -an | findstr "8443"  # Windows
+lsof -ti:8443  # Linux/macOS
+
+# 检查代理服务器是否启动
+netstat -an | findstr "8080"  # Windows
+lsof -ti:8080  # Linux/macOS
+
+# 确认浏览器代理配置正确
+# Chrome/Edge: chrome://settings/system → 打开计算机的代理设置
+# Firefox: 设置 → 网络设置 → 手动代理配置
+
+# 检查hosts文件配置（Windows: C:\Windows\System32\drivers\etc\hosts）
+# 应包含：127.0.0.1 pqc-tls.local
+```
+
+#### 7. Wireshark看不到数据包 🆕
+```bash
+# Windows: 确保安装了Npcap（不是WinPcap）
+# 下载：https://npcap.com/
+# 安装时选择 "Install Npcap in WinPcap API-compatible Mode"
+
+# 选择正确的网络接口
+# Windows: 选择 "Loopback: Loopback" 或 "Adapter for loopback traffic capture"
+# Linux/macOS: 选择 lo (loopback) 接口
+
+# 使用正确的过滤器
+# (tcp.port == 8443 or tcp.port == 8080) and ip.addr == 127.0.0.1
+
+# 如果还是看不到，尝试更宽泛的过滤器
+# ip.addr == 127.0.0.1
+```
+
 ### 性能优化建议
 
 1. **ClientHello优化**：只为选定的KEM生成密钥对，减少消息大小70%
@@ -683,6 +873,8 @@ pip list | grep -E "liboqs|cryptography|numpy"
 3. **并行验证**：混合签名可并行验证两个算法
 4. **网络配置**：本地测试使用localhost配置，减少延迟
 5. **迭代次数**：快速测试用5次，论文数据用50-100次
+6. **HTTPS代理优化** 🆕：代理服务器使用连接池，减少TLS握手开销
+7. **浏览器访问** 🆕：使用hosts文件映射域名，避免浏览器绕过代理
 
 ---
 
@@ -707,6 +899,11 @@ pip list | grep -E "liboqs|cryptography|numpy"
   - [快速启动](frontend/QUICKSTART.md)
   - [算法配置](frontend/ALGORITHM_CONFIG.md)
 
+- **HTTPS和浏览器访问** 🆕：
+  - [浏览器访问配置指南](implementation/enhanced_v2/BROWSER_SETUP.md)
+  - [HTTPS使用指南](implementation/enhanced_v2/README_HTTPS.md)
+  - [Wireshark抓包演示指南](implementation/enhanced_v2/WIRESHARK_DEMO.md)
+
 ---
 
 ## 🤝 贡献指南
@@ -727,6 +924,10 @@ pip list | grep -E "liboqs|cryptography|numpy"
 - 更新相关文档
 
 ---
+
+## 📄 许可证
+
+本项目采用 MIT 许可证 - 详见 [LICENSE](LICENSE) 文件
 
 ## 🙏 致谢
 
@@ -771,5 +972,4 @@ Made with ❤️ by TLS Hybrid Security Team
 [⬆ 回到顶部](#hybrid-pqc-tls-lab)
 
 </div>
-
 
