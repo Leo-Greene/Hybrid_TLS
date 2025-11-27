@@ -7,7 +7,6 @@
 [![Python](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
 [![TLS](https://img.shields.io/badge/TLS-1.3-green.svg)](https://datatracker.ietf.org/doc/html/rfc8446)
 [![PQC](https://img.shields.io/badge/PQC-NIST%20Standardized-orange.svg)](https://csrc.nist.gov/projects/post-quantum-cryptography)
-[![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 [功能特性](#-功能特性) • [快速开始](#-快速开始) • [项目架构](#-项目架构) • [使用指南](#-使用指南) • [性能评估](#-性能评估)
 
@@ -972,4 +971,5 @@ Made with ❤️ by TLS Hybrid Security Team
 [⬆ 回到顶部](#hybrid-pqc-tls-lab)
 
 </div>
+
 
