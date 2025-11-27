@@ -1,0 +1,18 @@
+{
+  "algorithm": "ML-DSA-44",
+  "description": "ML-DSA (Dilithium) - NIST Level 2/3/5",
+  "root_algorithm": "ML-DSA-87",
+  "intermediate_algorithm": "ML-DSA-65",
+  "server_algorithm": "ML-DSA-44",
+  "files": {
+    "root_cert": "enhanced_certificates/mldsa44/root/root_ca.crt",
+    "root_key": "enhanced_certificates/mldsa44/root/root_ca.key",
+    "root_sig": "enhanced_certificates/mldsa44/root/root_ca_pq.sig",
+    "intermediate_cert": "enhanced_certificates/mldsa44/intermediate/intermediate_ca.crt",
+    "intermediate_key": "enhanced_certificates/mldsa44/intermediate/intermediate_ca.key",
+    "intermediate_sig": "enhanced_certificates/mldsa44/intermediate/intermediate_ca_pq.sig",
+    "server_cert": "enhanced_certificates/mldsa44/server/server.crt",
+    "server_key": "enhanced_certificates/mldsa44/server/server.key",
+    "server_sig": "enhanced_certificates/mldsa44/server/server_pq.sig"
+  }
+}

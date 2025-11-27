@@ -1,0 +1,18 @@
+{
+  "algorithm": "Falcon-512",
+  "description": "Falcon - \u7d27\u51d1\u7b7e\u540d",
+  "root_algorithm": "Falcon-1024",
+  "intermediate_algorithm": "Falcon-512",
+  "server_algorithm": "Falcon-512",
+  "files": {
+    "root_cert": "enhanced_certificates/falcon512/root/root_ca.crt",
+    "root_key": "enhanced_certificates/falcon512/root/root_ca.key",
+    "root_sig": "enhanced_certificates/falcon512/root/root_ca_pq.sig",
+    "intermediate_cert": "enhanced_certificates/falcon512/intermediate/intermediate_ca.crt",
+    "intermediate_key": "enhanced_certificates/falcon512/intermediate/intermediate_ca.key",
+    "intermediate_sig": "enhanced_certificates/falcon512/intermediate/intermediate_ca_pq.sig",
+    "server_cert": "enhanced_certificates/falcon512/server/server.crt",
+    "server_key": "enhanced_certificates/falcon512/server/server.key",
+    "server_sig": "enhanced_certificates/falcon512/server/server_pq.sig"
+  }
+}

@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TLS混合握手演示 - by_val vs by_ref</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <!-- 顶部导航栏 -->
+        <header class="top-bar">
+            <div class="logo">
+                <span class="logo-icon">🔒</span>
+                <span class="logo-text">TLS混合握手演示</span>
+            </div>
+            <div class="top-actions">
+                <div class="status-indicator" id="status-indicator">
+                    <span class="status-dot"></span>
+                    <span class="status-text">就绪</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 主内容区 -->
+        <main class="main-content">
+            <!-- 页面标签页 -->
+            <div class="page-tabs">
+                <button class="page-tab active" data-page="handshake">握手测试</button>
+                <button class="page-tab" data-page="algorithm">TLS模式对比</button>
+                <button class="page-tab" data-page="comparison">证书模式对比</button>
+                <button class="page-tab" data-page="bandwidth">带宽模拟测试</button>
+                <button class="page-tab" data-page="benchmark">基准测试</button>
+            </div>
+
+            <!-- 握手测试页面 -->
+            <div class="page-content active" id="page-handshake">
+            <!-- 控制面板 -->
+            <section class="control-panel">
+                <h2>握手配置</h2>
+                <div class="control-grid">
+                    <div class="control-item">
+                        <label for="tls-mode">TLS模式</label>
+                        <select id="tls-mode" class="control-select">
+                            <option value="classic">经典TLS</option>
+                            <option value="pqc">纯PQC-TLS</option>
+                            <option value="hybrid" selected>混合TLS</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label for="cert-mode">证书模式</label>
+                        <select id="cert-mode" class="control-select">
+                            <option value="by_val">by_val (值模式)</option>
+                            <option value="by_ref">by_ref (引用模式)</option>
+                        </select>
+                    </div>
+                    <div class="control-item">
+                        <label for="algorithm">签名算法</label>
+                        <select id="algorithm" class="control-select">
+                            <option value="mldsa44">ML-DSA-44</option>
+                            <option value="mldsa65" selected>ML-DSA-65</option>
+                            <option value="mldsa87">ML-DSA-87</option>
+                            <option value="falcon512">Falcon-512</option>
+                            <option value="falcon1024">Falcon-1024</option>
+                        </select>
+                    </div>
+                    <div class="control-item control-actions">
+                        <button id="btn-execute" class="btn btn-primary">
+                            <span class="btn-icon">▶️</span>
+                            <span class="btn-text">执行握手</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 握手结果 -->
+            <section class="result-section" id="result-section" style="display: none;">
+                <h2>握手结果</h2>
+                <div class="result-grid">
+                    <div class="result-card">
+                        <div class="result-label">握手时间</div>
+                        <div class="result-value" id="result-time">-</div>
+                        <div class="result-unit">毫秒</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">消息数量</div>
+                        <div class="result-value" id="result-messages">-</div>
+                        <div class="result-unit">条</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">总数据量</div>
+                        <div class="result-value" id="result-size">-</div>
+                        <div class="result-unit">字节</div>
+                    </div>
+                    <div class="result-card">
+                        <div class="result-label">证书大小</div>
+                        <div class="result-value" id="result-cert-size">-</div>
+                        <div class="result-unit">字节</div>
+                    </div>
+                </div>
+                
+                <!-- 资源消耗监控 -->
+                <div id="resource-monitoring" style="display: none; margin-top: 2rem;">
+                    <h3 style="margin-bottom: 1rem;">资源消耗监控</h3>
+                    <div class="result-grid">
+                        <div class="result-card">
+                            <div class="result-label">CPU使用率（平均）</div>
+                            <div class="result-value" id="resource-cpu-avg">-</div>
+                            <div class="result-unit">%</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">CPU使用率（峰值）</div>
+                            <div class="result-value" id="resource-cpu-max">-</div>
+                            <div class="result-unit">%</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">内存使用（平均）</div>
+                            <div class="result-value" id="resource-memory-avg">-</div>
+                            <div class="result-unit">MB</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-label">内存使用（峰值）</div>
+                            <div class="result-value" id="resource-memory-max">-</div>
+                            <div class="result-unit">MB</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            </div>
+
+            <!-- 证书模式对比页面 -->
+            <div class="page-content" id="page-comparison">
+                <section class="control-panel">
+                    <h2>证书模式对比配置</h2>
+                    <div class="control-grid">
+                        <div class="control-item">
+                            <label for="compare-tls-mode">TLS模式</label>
+                            <select id="compare-tls-mode" class="control-select">
+                                <option value="classic">经典TLS</option>
+                                <option value="pqc">纯PQC-TLS</option>
+                                <option value="hybrid" selected>混合TLS</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="compare-algorithm">签名算法</label>
+                            <select id="compare-algorithm" class="control-select">
+                                <option value="mldsa44">ML-DSA-44</option>
+                                <option value="mldsa65" selected>ML-DSA-65</option>
+                                <option value="mldsa87">ML-DSA-87</option>
+                                <option value="falcon512">Falcon-512</option>
+                                <option value="falcon1024">Falcon-1024</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="run-count" class="control-label">运行次数:</label>
+                            <select id="run-count" class="control-select">
+                                <option value="1">1次</option>
+                                <option value="3" selected>3次</option>
+                                <option value="5">5次</option>
+                                <option value="10">10次</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="network-condition" class="control-label">网络延迟:</label>
+                            <select id="network-condition" class="control-select">
+                                <option value="loopback" selected>本地回环 (0.1ms)</option>
+                                <option value="lan">局域网 (1ms)</option>
+                                <option value="wifi">WiFi (5ms)</option>
+                                <option value="4g">4G移动网络 (50ms)</option>
+                                <option value="3g">3G移动网络 (100ms)</option>
+                                <option value="slow">慢速网络 (200ms)</option>
+                                <option value="satellite">卫星网络 (500ms)</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="network-bandwidth" class="control-label">网络带宽:</label>
+                            <select id="network-bandwidth" class="control-select">
+                                <option value="1000">1 Gbps (1000 Mbps)</option>
+                                <option value="100">100 Mbps</option>
+                                <option value="10" selected>10 Mbps</option>
+                                <option value="1">1 Mbps (低速WAN)</option>
+                                <option value="0.1">100 Kbps (移动网络)</option>
+                                <option value="0.056">56 Kbps (拨号上网)</option>
+                                <option value="0.01">10 Kbps (极慢网络)</option>
+                            </select>
+                        </div>
+                        <div class="control-item control-actions">
+                            <button id="btn-compare" class="btn btn-primary">
+                                <span class="btn-icon">📊</span>
+                                <span class="btn-text">执行对比</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- 对比结果 -->
+                <div id="comparison-results" style="display: none; margin-top: 2rem;">
+                    <div class="network-condition-indicator" id="network-indicator">
+                        <span class="network-condition-icon">🌐</span>
+                        <span class="network-condition-name">当前网络环境:</span>
+                        <span class="network-condition-latency" id="current-network-latency">-</span>
+                    </div>
+                    <div class="comparison-cards-wrapper">
+                        <div class="comparison-card-item">
+                            <h3 style="margin-top: 0; color: #3b82f6;">by_val (值模式)</h3>
+                            <div class="comparison-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">握手时间:</span>
+                                    <span class="metric-value" id="byval-time">-</span>
+                                    <span class="metric-unit">ms</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">证书大小:</span>
+                                    <span class="metric-value" id="byval-cert-size">-</span>
+                                    <span class="metric-unit">字节</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">总大小:</span>
+                                    <span class="metric-value" id="byval-total-size">-</span>
+                                    <span class="metric-unit">字节</span>
+                                </div>
+                                <div class="metric" style="visibility: hidden;">
+                                    <span class="metric-label">占位:</span>
+                                    <span class="metric-value">-</span>
+                                    <span class="metric-unit">-</span>
+                                </div>
+                            </div>
+                            <!-- 时间分析 -->
+                            <div class="comparison-section-item">
+                                <div class="timing-section-title">时间分析</div>
+                                <div id="byval-timing-breakdown" class="section-content"></div>
+                            </div>
+                            <!-- 消息大小分析 -->
+                            <div class="comparison-section-item">
+                                <div class="size-section-title">消息大小分析</div>
+                                <div id="byval-size-breakdown" class="section-content"></div>
+                            </div>
+                            <!-- 资源消耗监控 -->
+                            <div class="comparison-section-item">
+                                <div class="resource-section-title">资源消耗</div>
+                                <div id="byval-resources" class="section-content" style="display: none;">
+                                    <div class="comparison-metrics">
+                                        <div class="metric">
+                                            <span class="metric-label">CPU (平均):</span>
+                                            <span class="metric-value" id="byval-cpu-avg">-</span>
+                                            <span class="metric-unit">%</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">CPU (峰值):</span>
+                                            <span class="metric-value" id="byval-cpu-max">-</span>
+                                            <span class="metric-unit">%</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">内存 (平均):</span>
+                                            <span class="metric-value" id="byval-memory-avg">-</span>
+                                            <span class="metric-unit">MB</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">内存 (峰值):</span>
+                                            <span class="metric-value" id="byval-memory-max">-</span>
+                                            <span class="metric-unit">MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comparison-card-item">
+                            <h3 style="margin-top: 0; color: #3b82f6;">by_ref (引用模式)</h3>
+                            <div class="comparison-metrics">
+                                <div class="metric">
+                                    <span class="metric-label">握手时间:</span>
+                                    <span class="metric-value" id="byref-time">-</span>
+                                    <span class="metric-unit">ms</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">证书大小:</span>
+                                    <span class="metric-value" id="byref-cert-size">-</span>
+                                    <span class="metric-unit">字节</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">总大小:</span>
+                                    <span class="metric-value" id="byref-total-size">-</span>
+                                    <span class="metric-unit">字节</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">HTTP请求:</span>
+                                    <span class="metric-value" id="byref-http-requests">-</span>
+                                    <span class="metric-unit">次</span>
+                                </div>
+                            </div>
+                            <!-- 时间分析 -->
+                            <div class="comparison-section-item">
+                                <div class="timing-section-title">时间分析</div>
+                                <div id="byref-timing-breakdown" class="section-content"></div>
+                            </div>
+                            <!-- 消息大小分析 -->
+                            <div class="comparison-section-item">
+                                <div class="size-section-title">消息大小分析</div>
+                                <div id="byref-size-breakdown" class="section-content"></div>
+                            </div>
+                            <!-- 资源消耗监控 -->
+                            <div class="comparison-section-item">
+                                <div class="resource-section-title">资源消耗</div>
+                                <div id="byref-resources" class="section-content" style="display: none;">
+                                    <div class="comparison-metrics">
+                                        <div class="metric">
+                                            <span class="metric-label">CPU (平均):</span>
+                                            <span class="metric-value" id="byref-cpu-avg">-</span>
+                                            <span class="metric-unit">%</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">CPU (峰值):</span>
+                                            <span class="metric-value" id="byref-cpu-max">-</span>
+                                            <span class="metric-unit">%</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">内存 (平均):</span>
+                                            <span class="metric-value" id="byref-memory-avg">-</span>
+                                            <span class="metric-unit">MB</span>
+                                        </div>
+                                        <div class="metric">
+                                            <span class="metric-label">内存 (峰值):</span>
+                                            <span class="metric-value" id="byref-memory-max">-</span>
+                                            <span class="metric-unit">MB</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comparison-benefits" style="margin-top: 2rem;">
+                        <h3>服务器端优化效果</h3>
+                        <div class="benefit-grid">
+                            <div class="benefit-item">
+                                <div class="benefit-label">证书大小减少</div>
+                                <div class="benefit-value" id="cert-reduction">-</div>
+                                <div class="benefit-unit">字节 (<span id="cert-reduction-percent">-</span>%)</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-label">传输时间节省</div>
+                                <div class="benefit-value" id="transmission-saving">-</div>
+                                <div class="benefit-unit">毫秒</div>
+                            </div>
+                            <div class="benefit-item">
+                                <div class="benefit-label">客户端HTTP开销</div>
+                                <div class="benefit-value" id="http-overhead">-</div>
+                                <div class="benefit-unit">毫秒</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 带宽模拟测试页面 -->
+            <div class="page-content" id="page-bandwidth">
+                <section class="control-panel">
+                    <h2>带宽模拟测试配置</h2>
+                    <div class="control-grid">
+                        <div class="control-item">
+                            <label for="bandwidth-tls-mode">TLS模式</label>
+                            <select id="bandwidth-tls-mode" class="control-select">
+                                <option value="classic">经典TLS</option>
+                                <option value="pqc">纯PQC-TLS</option>
+                                <option value="hybrid" selected>混合TLS</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="bandwidth-algorithm">签名算法</label>
+                            <select id="bandwidth-algorithm" class="control-select">
+                                <option value="mldsa44">ML-DSA-44</option>
+                                <option value="mldsa65" selected>ML-DSA-65</option>
+                                <option value="mldsa87">ML-DSA-87</option>
+                                <option value="falcon512">Falcon-512</option>
+                                <option value="falcon1024">Falcon-1024</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="bandwidth-network-latency">网络延迟</label>
+                            <select id="bandwidth-network-latency" class="control-select">
+                                <option value="loopback" selected>本地回环 (0.1ms)</option>
+                                <option value="lan">局域网 (1ms)</option>
+                                <option value="wifi">WiFi (5ms)</option>
+                                <option value="4g">4G移动网络 (50ms)</option>
+                            </select>
+                        </div>
+                        <div class="control-item control-actions">
+                            <button id="btn-generate-bandwidth-chart" class="btn btn-primary">
+                                <span class="btn-icon">📈</span>
+                                <span class="btn-text">生成对比图</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 带宽对比图表 -->
+                <div id="bandwidth-chart-container" style="display: none; margin-top: 2rem;">
+                    <div style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="margin-top: 0; margin-bottom: 1rem;">握手延迟 vs 网络带宽</h3>
+                        <canvas id="bandwidth-chart" style="max-height: 500px;"></canvas>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e5e7eb;">
+                            <h4 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 0.95rem; color: #374151;">数据来源说明</h4>
+                            <div id="bandwidth-data-source" style="font-size: 0.85rem; color: #6b7280; line-height: 1.6;">
+                                <!-- 数据来源说明将在这里显示 -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TLS模式对比页面 -->
+            <div class="page-content" id="page-algorithm">
+                <section class="control-panel">
+                    <h2>TLS模式对比配置</h2>
+                    <div class="control-grid">
+                        <div class="control-item">
+                            <label for="algorithm-cert-mode">证书模式</label>
+                            <select id="algorithm-cert-mode" class="control-select">
+                                <option value="by_val" selected>by_val (值模式)</option>
+                                <option value="by_ref">by_ref (引用模式)</option>
+                            </select>
+                        </div>
+                        <div class="control-item">
+                            <label for="algorithm-runs">运行次数</label>
+                            <select id="algorithm-runs" class="control-select">
+                                <option value="1">1次</option>
+                                <option value="3" selected>3次</option>
+                                <option value="5">5次</option>
+                                <option value="10">10次</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <!-- 经典TLS配置 -->
+                    <div style="margin-top: 1.5rem; padding: 1rem; background: #eff6ff; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                        <h3 style="margin-top: 0; margin-bottom: 0.75rem; font-size: 1rem; color: #3b82f6;">经典TLS配置</h3>
+                        <div class="control-grid">
+                            <div class="control-item">
+                                <label for="classic-kem">KEM算法</label>
+                                <select id="classic-kem" class="control-select">
+                                    <option value="x25519" selected>X25519</option>
+                                    <option value="secp256r1">secp256r1</option>
+                                </select>
+                            </div>
+                            <div class="control-item">
+                                <label for="classic-signature">签名算法</label>
+                                <select id="classic-signature" class="control-select">
+                                    <option value="ecdsa_p256" selected>ECDSA-P256</option>
+                                    <option value="rsa_pss_sha256">RSA-PSS-SHA256</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 纯PQC-TLS配置 -->
+                    <div style="margin-top: 1rem; padding: 1rem; background: #ecfdf5; border-radius: 8px; border-left: 4px solid #10b981;">
+                        <h3 style="margin-top: 0; margin-bottom: 0.75rem; font-size: 1rem; color: #10b981;">纯PQC-TLS配置</h3>
+                        <div class="control-grid">
+                            <div class="control-item">
+                                <label for="pqc-kem">KEM算法</label>
+                                <select id="pqc-kem" class="control-select">
+                                    <option value="kyber512">Kyber-512</option>
+                                    <option value="kyber768" selected>Kyber-768</option>
+                                    <option value="kyber1024">Kyber-1024</option>
+                                    <option value="ML_KEM_512">ML-KEM-512</option>
+                                    <option value="ML_KEM_768">ML-KEM-768</option>
+                                    <option value="ML_KEM_1024">ML-KEM-1024</option>
+                                    <option value="ntru_hps2048509">NTRU-HPS-2048-509</option>
+                                    <option value="ntru_hps2048677">NTRU-HPS-2048-677</option>
+                                </select>
+                            </div>
+                            <div class="control-item">
+                                <label for="pqc-signature">签名算法</label>
+                                <select id="pqc-signature" class="control-select">
+                                    <option value="mldsa44">ML-DSA-44</option>
+                                    <option value="mldsa65" selected>ML-DSA-65</option>
+                                    <option value="mldsa87">ML-DSA-87</option>
+                                    <option value="falcon512">Falcon-512</option>
+                                    <option value="falcon1024">Falcon-1024</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 混合TLS配置 -->
+                    <div style="margin-top: 1rem; padding: 1rem; background: #fffbeb; border-radius: 8px; border-left: 4px solid #f59e0b;">
+                        <h3 style="margin-top: 0; margin-bottom: 0.75rem; font-size: 1rem; color: #f59e0b;">混合TLS配置</h3>
+                        <div class="control-grid">
+                            <div class="control-item">
+                                <label for="hybrid-kem">KEM算法</label>
+                                <select id="hybrid-kem" class="control-select">
+                                    <option value="p256_kyber512">P256 + Kyber-512</option>
+                                    <option value="p256_kyber768" selected>P256 + Kyber-768</option>
+                                    <option value="p384_kyber768">P384 + Kyber-768</option>
+                                    <option value="p521_kyber1024">P521 + Kyber-1024</option>
+                                    <option value="p256_ntru_hps2048509">P256 + NTRU-HPS-2048-509</option>
+                                    <option value="p384_ntru_hps2048677">P384 + NTRU-HPS-2048-677</option>
+                                </select>
+                            </div>
+                            <div class="control-item">
+                                <label for="hybrid-signature">签名算法</label>
+                                <select id="hybrid-signature" class="control-select">
+                                    <option value="mldsa44">ML-DSA-44</option>
+                                    <option value="mldsa65" selected>ML-DSA-65</option>
+                                    <option value="mldsa87">ML-DSA-87</option>
+                                    <option value="falcon512">Falcon-512</option>
+                                    <option value="falcon1024">Falcon-1024</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="control-grid" style="margin-top: 1.5rem;">
+                        <div class="control-item control-actions">
+                            <button id="btn-compare-algorithms" class="btn btn-primary">
+                                <span class="btn-icon">📊</span>
+                                <span class="btn-text">执行对比</span>
+                            </button>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 算法对比结果 -->
+                <div id="algorithm-comparison-results" style="display: none; margin-top: 2rem;">
+                    <div style="background: white; border-radius: 8px; padding: 1.5rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                        <h3 style="margin-top: 0; margin-bottom: 1.5rem;">TLS模式对比</h3>
+                        
+                        <!-- 算法信息展示 -->
+                        <div id="algorithm-info-section" style="margin-bottom: 1.5rem; padding: 1rem; background: #f9fafb; border-radius: 8px; display: none;">
+                            <h4 style="margin-top: 0; margin-bottom: 1rem; font-size: 1rem; color: #374151;">采用的算法</h4>
+                            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                                <div id="algorithm-info-classic" style="padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #3b82f6;">
+                                    <div style="font-weight: 600; color: #3b82f6; margin-bottom: 0.5rem;">经典TLS</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">
+                                        <div><strong>KEM:</strong> <span id="result-classic-kem">-</span></div>
+                                        <div><strong>签名算法:</strong> <span id="result-classic-signature">-</span></div>
+                                    </div>
+                                </div>
+                                <div id="algorithm-info-pqc" style="padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #10b981;">
+                                    <div style="font-weight: 600; color: #10b981; margin-bottom: 0.5rem;">纯PQC-TLS</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">
+                                        <div><strong>KEM:</strong> <span id="result-pqc-kem">-</span></div>
+                                        <div><strong>签名算法:</strong> <span id="result-pqc-signature">-</span></div>
+                                    </div>
+                                </div>
+                                <div id="algorithm-info-hybrid" style="padding: 0.75rem; background: white; border-radius: 6px; border-left: 3px solid #f59e0b;">
+                                    <div style="font-weight: 600; color: #f59e0b; margin-bottom: 0.5rem;">混合TLS</div>
+                                    <div style="font-size: 0.875rem; color: #6b7280;">
+                                        <div><strong>KEM:</strong> <span id="result-hybrid-kem">-</span></div>
+                                        <div><strong>签名算法:</strong> <span id="result-hybrid-signature">-</span></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- 对比表格 -->
+                        <div class="algorithm-comparison-table" style="overflow-x: auto;">
+                            <table style="width: 100%; border-collapse: collapse;">
+                                <thead>
+                                    <tr style="background: #f3f4f6;">
+                                        <th style="padding: 0.75rem; text-align: left; border-bottom: 2px solid #e5e7eb;">指标</th>
+                                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e5e7eb; color: #3b82f6;">经典TLS</th>
+                                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e5e7eb; color: #10b981;">纯PQC-TLS</th>
+                                        <th style="padding: 0.75rem; text-align: right; border-bottom: 2px solid #e5e7eb; color: #f59e0b;">混合TLS</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="algorithm-comparison-tbody">
+                                    <!-- 数据将通过JavaScript填充 -->
+                                </tbody>
+                            </table>
+                        </div>
+                        
+                        <!-- 对比图表 -->
+                        <div style="margin-top: 2rem;">
+                            <h4 style="margin-bottom: 1rem;">性能对比图表</h4>
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+                                <div style="background: #f9fafb; border-radius: 8px; padding: 1rem;">
+                                    <h5 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 0.9rem; color: #6b7280;">握手时间对比</h5>
+                                    <canvas id="algorithm-time-chart" style="max-height: 300px;"></canvas>
+                                </div>
+                                <div style="background: #f9fafb; border-radius: 8px; padding: 1rem;">
+                                    <h5 style="margin-top: 0; margin-bottom: 0.5rem; font-size: 0.9rem; color: #6b7280;">证书大小对比</h5>
+                                    <canvas id="algorithm-cert-size-chart" style="max-height: 300px;"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 基准测试页面 -->
+            <div class="page-content" id="page-benchmark">
+            <!-- 基准测试对比 -->
+            <section class="benchmark-section">
+                <h2>基准测试对比</h2>
+                <div class="benchmark-content" id="benchmark-content">
+                    <div class="loading-placeholder">正在加载基准测试图片...</div>
+                </div>
+            </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Toast通知 -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- 加载动画 -->
+    <div class="loading-overlay" id="loading-overlay" style="display: none;">
+        <div class="loading-spinner"></div>
+        <div class="loading-text">正在执行握手...</div>
+    </div>
+
+    <!-- Chart.js库 -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
+

@@ -1,0 +1,45 @@
+{
+  "timestamp": "20251126_204320",
+  "test_type": "handshake_only",
+  "handshake": [
+    {
+      "name": "Handshake-10s-classic",
+      "avg_time": 1.3646288209606987,
+      "throughput": 732.8,
+      "operations_in_10s": 7328,
+      "sizes": {
+        "client_hello": 301,
+        "server_hello": 231,
+        "certificate": 985,
+        "total": 1517,
+        "cert_enabled": true
+      }
+    },
+    {
+      "name": "Handshake-10s-pqc",
+      "avg_time": 5.668934240362812,
+      "throughput": 176.4,
+      "operations_in_10s": 1764,
+      "sizes": {
+        "client_hello": 2630,
+        "server_hello": 2344,
+        "certificate": 12661,
+        "total": 17635,
+        "cert_enabled": true
+      }
+    },
+    {
+      "name": "Handshake-10s-hybrid",
+      "avg_time": 5.681818181818182,
+      "throughput": 176.0,
+      "operations_in_10s": 1760,
+      "sizes": {
+        "client_hello": 3040,
+        "server_hello": 2480,
+        "certificate": 12661,
+        "total": 18181,
+        "cert_enabled": true
+      }
+    }
+  ]
+}

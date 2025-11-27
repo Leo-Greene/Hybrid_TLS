@@ -1,0 +1,25 @@
+{
+  "scenario_name": "comprehensive",
+  "description": "全面测试（100次迭代，多网络，论文终稿）",
+  "timestamp": "20251019_212329",
+  "elapsed_time_seconds": 11.013549566268921,
+  "configuration": {
+    "description": "全面测试（100次迭代，多网络，论文终稿）",
+    "iterations": 100,
+    "network_profiles": [
+      "localhost",
+      "lan",
+      "fast_wan"
+    ],
+    "distance_profiles": [
+      "local",
+      "city",
+      "country"
+    ],
+    "tests": [
+      "all"
+    ],
+    "estimated_time": "~140秒（超级并行）⚡"
+  },
+  "exit_code": 0
+}

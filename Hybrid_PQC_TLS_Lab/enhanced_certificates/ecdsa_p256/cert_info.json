@@ -1,0 +1,16 @@
+{
+  "algorithm": "ECDSA-P256",
+  "description": "\u7ecf\u5178ECDSA\u8bc1\u4e66\u94fe (P-384\u6839CA + P-256\u4e2d\u95f4CA + P-256\u670d\u52a1\u5668)",
+  "root_algorithm": "ECDSA-P384",
+  "intermediate_algorithm": "ECDSA-P256",
+  "server_algorithm": "ECDSA-P256",
+  "files": {
+    "root_cert": "ecdsa_p256/root/root_ca.crt",
+    "root_key": "ecdsa_p256/root/root_ca.key",
+    "intermediate_cert": "ecdsa_p256/intermediate/intermediate_ca.crt",
+    "intermediate_key": "ecdsa_p256/intermediate/intermediate_ca.key",
+    "server_cert": "ecdsa_p256/server/server.crt",
+    "server_key": "ecdsa_p256/server/server.key"
+  },
+  "note": "\u7ecf\u5178\u8bc1\u4e66\u4e0d\u9700\u8981.sig\u6587\u4ef6\uff0c\u7b7e\u540d\u5df2\u5305\u542b\u5728X.509\u8bc1\u4e66\u4e2d"
+}

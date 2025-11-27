@@ -1,0 +1,151 @@
+测试场景: comprehensive
+描述: 全面测试（100次迭代，多网络，论文终稿）
+开始时间: 20251019_212329
+执行时间: 11.01 秒
+================================================================================
+
+标准输出:
+
+╔══════════════════════════════════════════════════════════════════╗
+║                                                                  ║
+║      ⚡ TLS Performance Benchmarks (超级并行模式)               ║
+║                                                                  ║
+╚══════════════════════════════════════════════════════════════════╝
+
+💻 CPU核心数: 16
+⚡ 并行策略: 所有测试类型同时执行
+🔁 每测试迭代: 100次
+
+⏳ 预热中（加载密码学库）... ✅ 完成（16 ms）
+
+📋 总任务数: 18 (10 KEM + 5 签名 + 3 握手)
+🚀 最大并行数: 15 个任务
+
+✅ [1/18] KEM: Kyber512 - 3.49 ms
+✅ [2/18] KEM: P-256+Kyber512 - 3.65 ms
+✅ [3/18] KEM: Kyber768 - 3.68 ms
+✅ [4/18] KEM: P-384+Kyber768 - 3.91 ms
+✅ [5/18] KEM: P-256+Kyber768 - 3.94 ms
+✅ [6/18] KEM: Kyber1024 - 4.09 ms
+✅ [7/18] 签名: ML-DSA-44 - 4.34 ms
+✅ [8/18] 签名: ML-DSA-65 - 4.68 ms
+✅ [9/18] 签名: ML-DSA-87 - 4.66 ms
+✅ [10/18] KEM: NTRU-HPS-2048-509 - 6.68 ms
+✅ [11/18] KEM: P-256+NTRU-HPS-2048-509 - 7.03 ms
+✅ [12/18] KEM: NTRU-HPS-2048-677 - 9.13 ms
+✅ [13/18] KEM: P-384+NTRU-HPS-2048-677 - 9.57 ms
+✅ [14/18] 签名: Falcon512 - 11.43 ms
+✅ [15/18] 签名: Falcon1024 - 28.81 ms
+✅ [16/18] 握手: CLASSIC - 1.30 ms
+✅ [17/18] 握手: PQC - 4.87 ms
+✅ [18/18] 握手: HYBRID - 4.92 ms
+
+======================================================================
+⚡ 超级并行测试完成！
+======================================================================
+⏱️  总耗时: 10.4 秒
+📊 任务数: 18 个
+🚀 并行度: 15 线程
+⚡ 实际加速比: 约 0.3x
+
+
+======================================================================
+📊 KEM测试结果:
+======================================================================
+
+KEX-Kyber512:
+  平均: 3.494 ms
+  吞吐: 286 ops/s
+
+KEX-Kyber768:
+  平均: 3.684 ms
+  吞吐: 271 ops/s
+
+KEX-Kyber1024:
+  平均: 4.086 ms
+  吞吐: 245 ops/s
+
+KEX-NTRU-HPS-2048-509:
+  平均: 6.677 ms
+  吞吐: 150 ops/s
+
+KEX-NTRU-HPS-2048-677:
+  平均: 9.130 ms
+  吞吐: 110 ops/s
+
+KEX-P-256+Kyber512:
+  平均: 3.655 ms
+  吞吐: 274 ops/s
+
+KEX-P-256+Kyber768:
+  平均: 3.939 ms
+  吞吐: 254 ops/s
+
+KEX-P-384+Kyber768:
+  平均: 3.913 ms
+  吞吐: 256 ops/s
+
+KEX-P-256+NTRU-HPS-2048-509:
+  平均: 7.029 ms
+  吞吐: 142 ops/s
+
+KEX-P-384+NTRU-HPS-2048-677:
+  平均: 9.574 ms
+  吞吐: 104 ops/s
+
+======================================================================
+📊 签名测试结果:
+======================================================================
+
+SIG-ML-DSA-44:
+  平均: 4.341 ms
+  吞吐: 230 ops/s
+
+SIG-ML-DSA-65:
+  平均: 4.681 ms
+  吞吐: 214 ops/s
+
+SIG-ML-DSA-87:
+  平均: 4.664 ms
+  吞吐: 214 ops/s
+
+SIG-Falcon512:
+  平均: 11.431 ms
+  吞吐: 87 ops/s
+
+SIG-Falcon1024:
+  平均: 28.807 ms
+  吞吐: 35 ops/s
+
+======================================================================
+📊 握手测试结果:
+======================================================================
+
+Handshake-10s-classic:
+  平均: 1.304 ms
+  吞吐: 767 ops/s
+
+Handshake-10s-pqc:
+  平均: 4.873 ms
+  吞吐: 205 ops/s
+
+Handshake-10s-hybrid:
+  平均: 4.924 ms
+  吞吐: 203 ops/s
+
+======================================================================
+💾 保存测试结果...
+======================================================================
+
+[OK] Results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\kex_benchmark_20251019_212340.txt
+[OK] Detailed results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\kex_benchmark_20251019_212340.json
+
+[OK] Results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\sig_benchmark_20251019_212340.txt
+[OK] Detailed results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\sig_benchmark_20251019_212340.json
+
+[OK] Results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\handshake_benchmark_20251019_212340.txt
+[OK] Detailed results saved to: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\handshake_benchmark_20251019_212340.json
+
+[OK] 完整JSON已保存: D:\Coding\Project\TLS_Hybrid\Hybrid_PQC_TLS_Lab\Hybrid_PQC_TLS_Lab\benchmarks\results\benchmarks\benchmark_20251019_212340.json
+
+✅ 所有测试完成！总耗时: 10.4 秒

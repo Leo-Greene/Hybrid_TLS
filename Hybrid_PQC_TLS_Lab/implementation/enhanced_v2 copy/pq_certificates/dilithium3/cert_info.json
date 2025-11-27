@@ -1,0 +1,18 @@
+{
+  "algorithm": "Dilithium3",
+  "description": "Dilithium (\u5b9e\u9a8c\u7248\u672c)",
+  "root_algorithm": "ML-DSA-87",
+  "intermediate_algorithm": "ML-DSA-65",
+  "server_algorithm": "ML-DSA-65",
+  "files": {
+    "root_cert": "dilithium3/root/root_ca.crt",
+    "root_key": "dilithium3/root/root_ca.key",
+    "root_sig": "dilithium3/root/root_ca_pq.sig",
+    "intermediate_cert": "dilithium3/intermediate/intermediate_ca.crt",
+    "intermediate_key": "dilithium3/intermediate/intermediate_ca.key",
+    "intermediate_sig": "dilithium3/intermediate/intermediate_ca_pq.sig",
+    "server_cert": "dilithium3/server/server.crt",
+    "server_key": "dilithium3/server/server.key",
+    "server_sig": "dilithium3/server/server_pq.sig"
+  }
+}

@@ -1,0 +1,43 @@
+Key Exchange Benchmark Results
+======================================================================
+
+  KEX-Kyber512
+    Avg: 3.49 ms
+    Throughput: 286.2 ops/s
+
+  KEX-Kyber768
+    Avg: 3.68 ms
+    Throughput: 271.4 ops/s
+
+  KEX-Kyber1024
+    Avg: 4.09 ms
+    Throughput: 244.8 ops/s
+
+  KEX-NTRU-HPS-2048-509
+    Avg: 6.68 ms
+    Throughput: 149.8 ops/s
+
+  KEX-NTRU-HPS-2048-677
+    Avg: 9.13 ms
+    Throughput: 109.5 ops/s
+
+  KEX-P-256+Kyber512
+    Avg: 3.65 ms
+    Throughput: 273.6 ops/s
+
+  KEX-P-256+Kyber768
+    Avg: 3.94 ms
+    Throughput: 253.9 ops/s
+
+  KEX-P-384+Kyber768
+    Avg: 3.91 ms
+    Throughput: 255.6 ops/s
+
+  KEX-P-256+NTRU-HPS-2048-509
+    Avg: 7.03 ms
+    Throughput: 142.3 ops/s
+
+  KEX-P-384+NTRU-HPS-2048-677
+    Avg: 9.57 ms
+    Throughput: 104.4 ops/s
+

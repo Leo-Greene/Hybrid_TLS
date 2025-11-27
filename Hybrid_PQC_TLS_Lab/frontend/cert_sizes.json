@@ -1,0 +1,125 @@
+{
+  "timestamp": "20251123_221804",
+  "cert_sizes": {
+    "mldsa44": {
+      "algorithm": "mldsa44",
+      "by_val": {
+        "server_cert_size": 4263,
+        "server_sig_size": 6667,
+        "intermediate_cert_size": 6010,
+        "intermediate_sig_size": 9303,
+        "total_certificate_chain_size": 26243
+      },
+      "by_ref": {
+        "server_cert_size": 1090,
+        "intermediate_cert_size": 1107,
+        "total_certificate_chain_size": 2197,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 24046,
+        "percent": 91.63
+      }
+    },
+    "mldsa65": {
+      "algorithm": "mldsa65",
+      "by_val": {
+        "server_cert_size": 5994,
+        "server_sig_size": 6667,
+        "intermediate_cert_size": 6010,
+        "intermediate_sig_size": 9303,
+        "total_certificate_chain_size": 27974
+      },
+      "by_ref": {
+        "server_cert_size": 1094,
+        "intermediate_cert_size": 1107,
+        "total_certificate_chain_size": 2201,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 25773,
+        "percent": 92.13
+      }
+    },
+    "mldsa87": {
+      "algorithm": "mldsa87",
+      "by_val": {
+        "server_cert_size": 7729,
+        "server_sig_size": 9303,
+        "intermediate_cert_size": 7741,
+        "intermediate_sig_size": 9303,
+        "total_certificate_chain_size": 34076
+      },
+      "by_ref": {
+        "server_cert_size": 1090,
+        "intermediate_cert_size": 1103,
+        "total_certificate_chain_size": 2193,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 31883,
+        "percent": 93.56
+      }
+    },
+    "falcon512": {
+      "algorithm": "falcon512",
+      "by_val": {
+        "server_cert_size": 3142,
+        "server_sig_size": 1366,
+        "intermediate_cert_size": 3154,
+        "intermediate_sig_size": 2586,
+        "total_certificate_chain_size": 10248
+      },
+      "by_ref": {
+        "server_cert_size": 1099,
+        "intermediate_cert_size": 1111,
+        "total_certificate_chain_size": 2210,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 8038,
+        "percent": 78.43
+      }
+    },
+    "falcon1024": {
+      "algorithm": "falcon1024",
+      "by_val": {
+        "server_cert_size": 5571,
+        "server_sig_size": 2593,
+        "intermediate_cert_size": 5588,
+        "intermediate_sig_size": 2583,
+        "total_certificate_chain_size": 16335
+      },
+      "by_ref": {
+        "server_cert_size": 1107,
+        "intermediate_cert_size": 1123,
+        "total_certificate_chain_size": 2230,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 14105,
+        "percent": 86.35
+      }
+    },
+    "ecdsa_p256": {
+      "algorithm": "ecdsa_p256",
+      "by_val": {
+        "server_cert_size": 985,
+        "server_sig_size": 0,
+        "intermediate_cert_size": 944,
+        "intermediate_sig_size": 0,
+        "total_certificate_chain_size": 1929
+      },
+      "by_ref": {
+        "server_cert_size": 0,
+        "intermediate_cert_size": 0,
+        "total_certificate_chain_size": 0,
+        "note": "签名通过HTTP URI获取，不包含在Certificate消息中"
+      },
+      "size_reduction": {
+        "bytes": 1929,
+        "percent": 100.0
+      }
+    }
+  }
+}

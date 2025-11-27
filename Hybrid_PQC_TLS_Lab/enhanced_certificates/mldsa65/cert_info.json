@@ -1,0 +1,18 @@
+{
+  "algorithm": "ML-DSA-65",
+  "description": "ML-DSA (Dilithium) - \u63a8\u8350\u914d\u7f6e",
+  "root_algorithm": "ML-DSA-87",
+  "intermediate_algorithm": "ML-DSA-65",
+  "server_algorithm": "ML-DSA-65",
+  "files": {
+    "root_cert": "enhanced_certificates/mldsa65/root/root_ca.crt",
+    "root_key": "enhanced_certificates/mldsa65/root/root_ca.key",
+    "root_sig": "enhanced_certificates/mldsa65/root/root_ca_pq.sig",
+    "intermediate_cert": "enhanced_certificates/mldsa65/intermediate/intermediate_ca.crt",
+    "intermediate_key": "enhanced_certificates/mldsa65/intermediate/intermediate_ca.key",
+    "intermediate_sig": "enhanced_certificates/mldsa65/intermediate/intermediate_ca_pq.sig",
+    "server_cert": "enhanced_certificates/mldsa65/server/server.crt",
+    "server_key": "enhanced_certificates/mldsa65/server/server.key",
+    "server_sig": "enhanced_certificates/mldsa65/server/server_pq.sig"
+  }
+}

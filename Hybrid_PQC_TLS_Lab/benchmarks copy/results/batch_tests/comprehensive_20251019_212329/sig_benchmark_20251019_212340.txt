@@ -1,0 +1,23 @@
+Signature Benchmark Results
+======================================================================
+
+  SIG-ML-DSA-44
+    Avg: 4.34 ms
+    Throughput: 230.3 ops/s
+
+  SIG-ML-DSA-65
+    Avg: 4.68 ms
+    Throughput: 213.6 ops/s
+
+  SIG-ML-DSA-87
+    Avg: 4.66 ms
+    Throughput: 214.4 ops/s
+
+  SIG-Falcon512
+    Avg: 11.43 ms
+    Throughput: 87.5 ops/s
+
+  SIG-Falcon1024
+    Avg: 28.81 ms
+    Throughput: 34.7 ops/s
+

@@ -1,0 +1,213 @@
+{
+  "timestamp": "20251019_212340",
+  "key_exchange": [
+    {
+      "name": "KEX-Kyber512",
+      "avg_time": 3.493739001569338,
+      "throughput": 286.2263035535322,
+      "operations_in_10s": 2862,
+      "sizes": {
+        "client_public": 800,
+        "server_public": 768
+      }
+    },
+    {
+      "name": "KEX-Kyber768",
+      "avg_time": 3.684031000302639,
+      "throughput": 271.4417983773348,
+      "operations_in_10s": 2714,
+      "sizes": {
+        "client_public": 1184,
+        "server_public": 1088
+      }
+    },
+    {
+      "name": "KEX-Kyber1024",
+      "avg_time": 4.08573299908312,
+      "throughput": 244.75412373358955,
+      "operations_in_10s": 2447,
+      "sizes": {
+        "client_public": 1568,
+        "server_public": 1568
+      }
+    },
+    {
+      "name": "KEX-NTRU-HPS-2048-509",
+      "avg_time": 6.677297998976428,
+      "throughput": 149.76117587582453,
+      "operations_in_10s": 1497,
+      "sizes": {
+        "client_public": 699,
+        "server_public": 699
+      }
+    },
+    {
+      "name": "KEX-NTRU-HPS-2048-677",
+      "avg_time": 9.1298100023414,
+      "throughput": 109.53130456641959,
+      "operations_in_10s": 1095,
+      "sizes": {
+        "client_public": 930,
+        "server_public": 930
+      }
+    },
+    {
+      "name": "KEX-P-256+Kyber512",
+      "avg_time": 3.6549100020783953,
+      "throughput": 273.6045482464251,
+      "operations_in_10s": 2736,
+      "sizes": {
+        "client_public": 867,
+        "server_public": 835
+      }
+    },
+    {
+      "name": "KEX-P-256+Kyber768",
+      "avg_time": 3.9387340005487204,
+      "throughput": 253.88868602466837,
+      "operations_in_10s": 2538,
+      "sizes": {
+        "client_public": 1251,
+        "server_public": 1155
+      }
+    },
+    {
+      "name": "KEX-P-384+Kyber768",
+      "avg_time": 3.912871000065934,
+      "throughput": 255.5668203687649,
+      "operations_in_10s": 2555,
+      "sizes": {
+        "client_public": 1251,
+        "server_public": 1155
+      }
+    },
+    {
+      "name": "KEX-P-256+NTRU-HPS-2048-509",
+      "avg_time": 7.028840998536907,
+      "throughput": 142.27096618178666,
+      "operations_in_10s": 1422,
+      "sizes": {
+        "client_public": 766,
+        "server_public": 766
+      }
+    },
+    {
+      "name": "KEX-P-384+NTRU-HPS-2048-677",
+      "avg_time": 9.57409499969799,
+      "throughput": 104.4485144581858,
+      "operations_in_10s": 1044,
+      "sizes": {
+        "client_public": 997,
+        "server_public": 997
+      }
+    }
+  ],
+  "signature": [
+    {
+      "name": "SIG-ML-DSA-44",
+      "avg_time": 4.341431000211742,
+      "throughput": 230.33879841721028,
+      "operations_in_10s": 2303,
+      "sizes": {
+        "public_key": 1312,
+        "signature": 2420,
+        "avg_keygen_ms": 1.317760000238195,
+        "avg_sign_ms": 1.888821999891661,
+        "avg_verify_ms": 1.1309430008986965
+      }
+    },
+    {
+      "name": "SIG-ML-DSA-65",
+      "avg_time": 4.680718999588862,
+      "throughput": 213.64239128386825,
+      "operations_in_10s": 2136,
+      "sizes": {
+        "public_key": 1952,
+        "signature": 3309,
+        "avg_keygen_ms": 1.163664000632707,
+        "avg_sign_ms": 2.3492909997003153,
+        "avg_verify_ms": 1.1638290001428686
+      }
+    },
+    {
+      "name": "SIG-ML-DSA-87",
+      "avg_time": 4.663651000591926,
+      "throughput": 214.42427829035162,
+      "operations_in_10s": 2144,
+      "sizes": {
+        "public_key": 2592,
+        "signature": 4627,
+        "avg_keygen_ms": 1.4316639993921854,
+        "avg_sign_ms": 1.9947570000658743,
+        "avg_verify_ms": 1.2332599991350435
+      }
+    },
+    {
+      "name": "SIG-Falcon512",
+      "avg_time": 11.431246000283863,
+      "throughput": 87.47952760138027,
+      "operations_in_10s": 874,
+      "sizes": {
+        "public_key": 897,
+        "signature": 652,
+        "avg_keygen_ms": 9.916866999992635,
+        "avg_sign_ms": 0.9045880011399277,
+        "avg_verify_ms": 0.6051969999680296
+      }
+    },
+    {
+      "name": "SIG-Falcon1024",
+      "avg_time": 28.806795999698807,
+      "throughput": 34.71403067562445,
+      "operations_in_10s": 347,
+      "sizes": {
+        "public_key": 1793,
+        "signature": 1268,
+        "avg_keygen_ms": 27.292740000411868,
+        "avg_sign_ms": 0.933924998389557,
+        "avg_verify_ms": 0.5748189997393638
+      }
+    }
+  ],
+  "handshake_10s": [
+    {
+      "name": "Handshake-10s-classic",
+      "avg_time": 1.3039509714434738,
+      "throughput": 766.9,
+      "operations_in_10s": 7668,
+      "sizes": {
+        "client_hello": 301,
+        "server_hello": 231,
+        "certificate": 985,
+        "total": 1517,
+        "cert_enabled": true
+      }
+    },
+    {
+      "name": "Handshake-10s-pqc",
+      "avg_time": 4.8732943469785575,
+      "throughput": 205.2,
+      "operations_in_10s": 2052,
+      "sizes": {
+        "client_hello": 2630,
+        "server_hello": 2344,
+        "certificate": 12661,
+        "total": 17635,
+        "cert_enabled": true
+      }
+    },
+    {
+      "name": "Handshake-10s-hybrid",
+      "avg_time": 4.923682914820286,
+      "throughput": 203.1,
+      "operations_in_10s": 2031,
+      "sizes": {
+        "client_hello": 3040,
+        "server_hello": 2480,
+        "certificate": 12661,
+        "total": 18181,
+        "cert_enabled": true
+      }
+    }
+  ]
+}

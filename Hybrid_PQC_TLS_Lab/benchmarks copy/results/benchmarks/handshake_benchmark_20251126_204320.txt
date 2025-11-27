@@ -1,0 +1,15 @@
+Handshake Benchmark Results
+======================================================================
+
+  Handshake-10s-classic
+    Avg: 1.36 ms
+    Throughput: 732.8 ops/s
+
+  Handshake-10s-pqc
+    Avg: 5.67 ms
+    Throughput: 176.4 ops/s
+
+  Handshake-10s-hybrid
+    Avg: 5.68 ms
+    Throughput: 176.0 ops/s
+

@@ -1,0 +1,48 @@
+{
+  "timestamp": "20251019_212340",
+  "test_type": "handshake_only",
+  "handshake": [
+    {
+      "name": "Handshake-10s-classic-by_ref",
+      "avg_time": 1.1890953840135612,
+      "throughput": 0.8,
+      "operations_in_10s": 8,
+      "sizes": {
+        "client_hello": 301,
+        "server_hello": 231,
+        "certificate": 0,
+        "total": 532,
+        "cert_enabled": true,
+        "http_requests": 2
+      }
+    },
+    {
+      "name": "Handshake-10s-pqc-by_ref",
+      "avg_time": 4.437197855750487,
+      "throughput": 0.2,
+      "operations_in_10s": 2,
+      "sizes": {
+        "client_hello": 2630,
+        "server_hello": 2344,
+        "certificate": 2201,
+        "total": 7175,
+        "cert_enabled": true,
+        "http_requests": 2
+      }
+    },
+    {
+      "name": "Handshake-10s-hybrid-by_ref",
+      "avg_time": 4.48305145248646,
+      "throughput": 0.2,
+      "operations_in_10s": 2,
+      "sizes": {
+        "client_hello": 3040,
+        "server_hello": 2480,
+        "certificate": 2201,
+        "total": 7721,
+        "cert_enabled": true,
+        "http_requests": 2
+      }
+    }
+  ]
+}

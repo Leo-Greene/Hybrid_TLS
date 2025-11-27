@@ -1,0 +1,106 @@
+{
+  "timestamp": "20251019_212340",
+  "test_type": "key_exchange_only",
+  "key_exchange": [
+    {
+      "name": "KEX-Kyber512",
+      "avg_time": 3.493739001569338,
+      "throughput": 286.2263035535322,
+      "operations_in_10s": 2862,
+      "sizes": {
+        "client_public": 800,
+        "server_public": 768
+      }
+    },
+    {
+      "name": "KEX-Kyber768",
+      "avg_time": 3.684031000302639,
+      "throughput": 271.4417983773348,
+      "operations_in_10s": 2714,
+      "sizes": {
+        "client_public": 1184,
+        "server_public": 1088
+      }
+    },
+    {
+      "name": "KEX-Kyber1024",
+      "avg_time": 4.08573299908312,
+      "throughput": 244.75412373358955,
+      "operations_in_10s": 2447,
+      "sizes": {
+        "client_public": 1568,
+        "server_public": 1568
+      }
+    },
+    {
+      "name": "KEX-NTRU-HPS-2048-509",
+      "avg_time": 6.677297998976428,
+      "throughput": 149.76117587582453,
+      "operations_in_10s": 1497,
+      "sizes": {
+        "client_public": 699,
+        "server_public": 699
+      }
+    },
+    {
+      "name": "KEX-NTRU-HPS-2048-677",
+      "avg_time": 9.1298100023414,
+      "throughput": 109.53130456641959,
+      "operations_in_10s": 1095,
+      "sizes": {
+        "client_public": 930,
+        "server_public": 930
+      }
+    },
+    {
+      "name": "KEX-P-256+Kyber512",
+      "avg_time": 3.6549100020783953,
+      "throughput": 273.6045482464251,
+      "operations_in_10s": 2736,
+      "sizes": {
+        "client_public": 867,
+        "server_public": 835
+      }
+    },
+    {
+      "name": "KEX-P-256+Kyber768",
+      "avg_time": 3.9387340005487204,
+      "throughput": 253.88868602466837,
+      "operations_in_10s": 2538,
+      "sizes": {
+        "client_public": 1251,
+        "server_public": 1155
+      }
+    },
+    {
+      "name": "KEX-P-384+Kyber768",
+      "avg_time": 3.912871000065934,
+      "throughput": 255.5668203687649,
+      "operations_in_10s": 2555,
+      "sizes": {
+        "client_public": 1251,
+        "server_public": 1155
+      }
+    },
+    {
+      "name": "KEX-P-256+NTRU-HPS-2048-509",
+      "avg_time": 7.028840998536907,
+      "throughput": 142.27096618178666,
+      "operations_in_10s": 1422,
+      "sizes": {
+        "client_public": 766,
+        "server_public": 766
+      }
+    },
+    {
+      "name": "KEX-P-384+NTRU-HPS-2048-677",
+      "avg_time": 9.57409499969799,
+      "throughput": 104.4485144581858,
+      "operations_in_10s": 1044,
+      "sizes": {
+        "client_public": 997,
+        "server_public": 997
+      }
+    }
+  ]
+}

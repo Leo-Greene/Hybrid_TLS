@@ -1,0 +1,36 @@
+# Hybrid PQC-TLS Lab - dependencies
+
+# Core cryptography libraries
+cryptography>=41.0.0          # classical crypto (ECDH, ECDSA, etc.)
+liboqs-python>=0.10.0         # post-quantum crypto (Kyber, Dilithium, etc.)
+
+# TLS and networking
+pyOpenSSL>=23.0.0             # OpenSSL bindings
+asn1crypto>=1.5.0             # ASN.1 encoding/decoding
+
+# Performance testing
+psutil>=5.9.0                 # system resource monitoring
+memory_profiler>=0.61.0       # memory profiling
+py-cpuinfo>=9.0.0             # CPU information
+
+# Data analysis and visualization
+numpy>=1.24.0,<2.0.0          # numerical computing (限制在 1.x 版本以兼容 pandas)
+pandas>=2.0.0                 # data processing
+matplotlib>=3.7.0             # plotting
+plotly>=5.14.0                # interactive charts
+seaborn>=0.12.0               # statistical visualization
+
+# Testing and development
+pytest>=7.3.0                 # unit tests
+pytest-benchmark>=4.0.0       # benchmarking
+pytest-cov>=4.1.0             # test coverage
+
+# Tools
+colorama>=0.4.6               # colored output
+tqdm>=4.65.0                  # progress bars
+tabulate>=0.9.0               # table output
+pyyaml>=6.0                   # configuration files
+
+# Optional: system liboqs (if Python bindings are unavailable)
+# Requires manual installation of the liboqs C library: https://github.com/open-quantum-safe/liboqs
+

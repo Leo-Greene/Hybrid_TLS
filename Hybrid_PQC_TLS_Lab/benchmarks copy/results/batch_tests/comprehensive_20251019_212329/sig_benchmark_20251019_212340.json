@@ -1,0 +1,71 @@
+{
+  "timestamp": "20251019_212340",
+  "test_type": "signature_only",
+  "signature": [
+    {
+      "name": "SIG-ML-DSA-44",
+      "avg_time": 4.341431000211742,
+      "throughput": 230.33879841721028,
+      "operations_in_10s": 2303,
+      "sizes": {
+        "public_key": 1312,
+        "signature": 2420,
+        "avg_keygen_ms": 1.317760000238195,
+        "avg_sign_ms": 1.888821999891661,
+        "avg_verify_ms": 1.1309430008986965
+      }
+    },
+    {
+      "name": "SIG-ML-DSA-65",
+      "avg_time": 4.680718999588862,
+      "throughput": 213.64239128386825,
+      "operations_in_10s": 2136,
+      "sizes": {
+        "public_key": 1952,
+        "signature": 3309,
+        "avg_keygen_ms": 1.163664000632707,
+        "avg_sign_ms": 2.3492909997003153,
+        "avg_verify_ms": 1.1638290001428686
+      }
+    },
+    {
+      "name": "SIG-ML-DSA-87",
+      "avg_time": 4.663651000591926,
+      "throughput": 214.42427829035162,
+      "operations_in_10s": 2144,
+      "sizes": {
+        "public_key": 2592,
+        "signature": 4627,
+        "avg_keygen_ms": 1.4316639993921854,
+        "avg_sign_ms": 1.9947570000658743,
+        "avg_verify_ms": 1.2332599991350435
+      }
+    },
+    {
+      "name": "SIG-Falcon512",
+      "avg_time": 11.431246000283863,
+      "throughput": 87.47952760138027,
+      "operations_in_10s": 874,
+      "sizes": {
+        "public_key": 897,
+        "signature": 652,
+        "avg_keygen_ms": 9.916866999992635,
+        "avg_sign_ms": 0.9045880011399277,
+        "avg_verify_ms": 0.6051969999680296
+      }
+    },
+    {
+      "name": "SIG-Falcon1024",
+      "avg_time": 28.806795999698807,
+      "throughput": 34.71403067562445,
+      "operations_in_10s": 347,
+      "sizes": {
+        "public_key": 1793,
+        "signature": 1268,
+        "avg_keygen_ms": 27.292740000411868,
+        "avg_sign_ms": 0.933924998389557,
+        "avg_verify_ms": 0.5748189997393638
+      }
+    }
+  ]
+}
